@@ -1,4 +1,4 @@
-Basic scatterplot with d3.js v4 adapted from d3 v3 code at 'http://bl.ocks.org/mbostock/3887118'.
+Scatterplot of materials band gap data.
 
 Here I used:
 * d3 v4
@@ -10,4 +10,4 @@ Here I used:
 
     $ npm start
 
-Once the server is running, view project at 'https://d3-scatter-tonnamb.c9users.io/'.
+Once the server is running, view project at 'https://d3-scatter-materials-tonnamb.c9users.io/'.

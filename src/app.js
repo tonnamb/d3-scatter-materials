@@ -13,7 +13,7 @@ var x = d3.scaleLinear()
 var y = d3.scaleLinear()
     .range([height, 0]);
 
-var color = d3.scaleOrdinal(d3.schemeCategory10);
+var color = d3.scaleOrdinal(d3.schemeCategory20);
 
 // Axis objects
 var xAxis = d3.axisBottom(x);
@@ -29,18 +29,21 @@ var svg = d3.select("body")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 // Load data
-d3.tsv("data.tsv", function(error, data) {
+d3.csv("training.csv", function(error, data) {
   if (error) throw error;
 
-  // Convert string into number
+  // Data formatting
   data.forEach(function(d) {
-    d.sepalLength = +d.sepalLength;
-    d.sepalWidth = +d.sepalWidth;
+    d.bandGap = +d.bandGap;
+    d.density = +d.density;
+    d.formationEnergy = +d.formationEnergy;
+    d.volume = +d.volume;
   });
+  // console.log(data);
 
   // Domain [=] [min, max], .nice() extends domain so that it will round up
-  x.domain(d3.extent(data, function(d) { return d.sepalWidth; })).nice();
-  y.domain(d3.extent(data, function(d) { return d.sepalLength; })).nice();
+  x.domain(d3.extent(data, function(d) { return d.density; })).nice();
+  y.domain(d3.extent(data, function(d) { return d.bandGap; })).nice();
 
   // Create x axis line, ticks
   svg.append("g")
@@ -53,7 +56,7 @@ d3.tsv("data.tsv", function(error, data) {
       .attr("class", "label")
       .attr("transform", "translate(" + width + " ," + (height-10) + ")")
       .style("text-anchor", "end")
-      .text("Sepal Width (cm)");
+      .text("Density (g/cm^3)");
 
   // Create y axis line, ticks
   svg.append("g")
@@ -67,7 +70,7 @@ d3.tsv("data.tsv", function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Sepal Length (cm)");
+      .text("Band Gap (eV)");
   
   // Plot data as circles
   svg.selectAll(".dot")
@@ -75,10 +78,11 @@ d3.tsv("data.tsv", function(error, data) {
       .enter().append("circle")
         .attr("class", "dot")
         .attr("r", 3.5)
-        .attr("cx", function(d) { return x(d.sepalWidth); })
-        .attr("cy", function(d) { return y(d.sepalLength); })
-        .style("fill", function(d) { return color(d.species); });
+        .attr("cx", function(d) { return x(d.density); })
+        .attr("cy", function(d) { return y(d.bandGap); })
+        .style("fill", function(d) { return color(d.chemicalFormula); });
 
+/*
   // Add legend
   var legend = svg.selectAll(".legend")
       .data(color.domain())
@@ -98,6 +102,7 @@ d3.tsv("data.tsv", function(error, data) {
       .attr("dy", ".35em")
       .style("text-anchor", "end")
       .text(function(d) { return d; });
+  */
 
 });
 
